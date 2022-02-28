@@ -10,5 +10,5 @@ it, 전자제품 리뷰 사이트 프로젝트
 
 # React 개발과정
 
-2022.01.28 박다정- dev브랜치와, view 에서 npm i를 해서 node-modules를 설체해야한다.
+2022.01.28 박다정- dev브랜치와, view 에서 npm i를 해서 node-modules를 설치해야한다.
 
