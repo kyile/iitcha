@@ -8,6 +8,8 @@ const Home: NextPage = () => {
   const modal = useContext(ModalContext);
   const [check, setCheck] = useState<boolean>();
   const [radio, setRadio] = useState<any>();
+  const [text, setText] = useState<string>();
+
   return (
     <div>
       <Head>
@@ -47,7 +49,10 @@ const Home: NextPage = () => {
                   <Text
                     id="text"
                     label="Text"
-                    onChange={(id, value) => {console.log(id); console.log(value);}}
+                    value={text}
+                    required
+                    invalidFeedBack="필수값입니다."
+                    onChange={(id, value) => {setText(value);}}
                   />
                 </Tab.Sub>
                 <Tab.Sub id="tabSub2" label="Tab 2">
@@ -69,9 +74,34 @@ const Home: NextPage = () => {
                     id="radio"
                     label="Radio"
                     value={radio}
-                    options={[{value: "A", display: "option A"}, {value: "B", display: "option B"}]}
                     onChange={(id, value) => {console.log(id); console.log(value); setRadio(value);}}
-                  />
+                  >
+                    <Radio.Option value="A">
+                      Option A
+                    </Radio.Option>
+                    <Radio.Option value="B"/>
+                  </Radio>
+                </Tab.Sub>
+                <Tab.Sub id="tabSub4" label="Tab4">
+                  <h5>
+                    Tab 3's contents
+                  </h5>
+                  <Dropdown id="dropDown" label="Dropdown">
+                    <Dropdown.Item id="item1" onClick={(id) => {console.log(id);}}>
+                      Item1
+                    </Dropdown.Item>
+                    <Dropdown.Item id="item2" onClick={(id) => {console.log(id);}}>
+                      Item2
+                    </Dropdown.Item>
+                    <Dropdown.Divider/>
+                    <Dropdown.Item id="item3" onClick={(id) => {console.log(id);}}>
+                      Item3
+                    </Dropdown.Item>
+                  </Dropdown>
+                  <Select id="select" label="Select">
+                    <Select.Option value="A" display="Option A"/>
+                    <Select.Option value="B" display="Option B"/>
+                  </Select>
                 </Tab.Sub>
               </Tab>
             </Grid>

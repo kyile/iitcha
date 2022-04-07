@@ -13,6 +13,7 @@ const Checkbox = (props: Props) => {
     const checked = props.checked ?? false;
     const disabled = props.disabled ?? false;
 
+    // Checkbox change event handler
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(onChange !== undefined) {
             const value = event.target.checked;

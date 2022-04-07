@@ -26,6 +26,7 @@ const Tab = (props: Props) => {
             children.forEach((child) => {
                 const type = child.type.name;
                 const id = child.props.id;
+
                 // Tab.Sub 외의 component가 있을 시 error throw
                 if(type !== "Sub") {
                     throw new Error(`Tab can only has Tab.Sub in children: ${type}`);
@@ -39,6 +40,7 @@ const Tab = (props: Props) => {
         }
         else {
             const type = children.type.name
+
             // Tab.Sub 외의 component가 있을 시 error throw
             if(type !== "Sub") {
                 throw new Error(`Tab can only has Tab.Sub in children: ${type}`);
@@ -53,13 +55,12 @@ const Tab = (props: Props) => {
         }
     }
 
-    // Tab navigation rendering
-    const tabNav = () => {
+    // Tab navigation render
+    const renderNav = () => {
         // Array일 경우와 하나의 component일 경우 구분하여 진행
         if(Array.isArray(children)) {
             return children.map((child, idx) => {
-                const label = child.props.label;
-                const id = child.props.id
+                const { label, id } = child.props;
                 const navId = `nav-${id}-tab`;
                 const target = `#nav-${id}`;
                 const ariaControls = `nav-${id}`;
@@ -83,56 +84,54 @@ const Tab = (props: Props) => {
             });
         }
         else {
-            const label = children.props.label;
-            const id = children.props.id
+            const { label, id } = children.props;
             const navId = `nav-${id}-tab`;
             const target = `#nav-${id}`;
             const ariaControls = `nav-${id}`;
 
             return (
-                    <button
-                        className="nav-link active"
-                        id={navId} data-bs-toggle="tab"
-                        data-bs-target={target}
-                        type="button"
-                        role="tab"
-                        aria-controls={ariaControls}
-                        key={id}
-                    >
-                        {label}
-                    </button>
+                <button
+                    className="nav-link active"
+                    id={navId}
+                    data-bs-toggle="tab"
+                    data-bs-target={target}
+                    type="button"
+                    role="tab"
+                    aria-controls={ariaControls}
+                    key={id}
+                >
+                    {label}
+                </button>
                 
             );
         }
     }
 
-    // Tab contents rendering
-    const tabContent = () => {
+    // Tab contents render
+    const renderContent = () => {
         // Array일 경우와 하나의 component일 경우 구분하여 진행
         if(Array.isArray(children)) {
             return children.map((child, idx) => {
                 const id = child.props.id;
-                const currentChildren = child.props.children;
                 const tabId = `nav-${id}`;
                 const ariaLabel = `${tabId}-tab`;
                 const className = `tab-pane ${idx === currentIdx ? " show active" : ""}`;
 
                 return (
                     <div className={className} id={tabId} role="tabpanel" aria-labelledby={ariaLabel} key={id}>
-                        {currentChildren}
+                        {child.props.children}
                     </div>
                 );
             });
         }
         else {
             const id = children.props.id;
-            const currentChildren = children.props.children;
             const tabId = `nav-${id}`;
             const ariaLabel = `${tabId}-tab`;
 
             return (
                 <div className="tab-pane show active" id={tabId} role="tabpanel" aria-labelledby={ariaLabel}>
-                    {currentChildren}
+                    {children.props.children}
                 </div>
             );
         }
@@ -142,11 +141,11 @@ const Tab = (props: Props) => {
         <div id={id}>
             <nav>
                 <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                    {tabNav()}
+                    {renderNav()}
                 </div>
             </nav>
             <div className="tab-content" id="nav-tabContent">
-                {tabContent()}
+                {renderContent()}
             </div>
         </div>
     );

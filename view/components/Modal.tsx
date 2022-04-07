@@ -1,7 +1,23 @@
 import React, { useEffect } from "react";
 
+// Modal Props
 type Props = {
     children: JSX.Element[];
+}
+
+// Modal.Header Props
+type HeaderProps = {
+    children: JSX.Element | JSX.Element[] | string;
+}
+
+// Modal.Body Props
+type BodyProps = {
+    children: JSX.Element | JSX.Element[] | string;
+}
+
+// Modal.FooterProps
+type FooterProps = {
+    children: JSX.Element | JSX.Element[] | string;
 }
 
 const Modal = (props: Props) => {
@@ -34,7 +50,7 @@ const Modal = (props: Props) => {
     );
 }
 
-const Header = (props: {children: JSX.Element | JSX.Element[] | string}) => {
+const Header = (props: HeaderProps) => {
     const { children } = props;
     return (
         <div className="modal-header">
@@ -44,7 +60,7 @@ const Header = (props: {children: JSX.Element | JSX.Element[] | string}) => {
     );
 }
 
-const Body = (props: {children: JSX.Element | JSX.Element[] | string}) => {
+const Body = (props: BodyProps) => {
     const { children } = props;
     return (
         <div className="modal-body">
@@ -53,7 +69,7 @@ const Body = (props: {children: JSX.Element | JSX.Element[] | string}) => {
     );
 }
 
-const Footer = (props: {children: JSX.Element | JSX.Element[] | string}) => {
+const Footer = (props: FooterProps) => {
     const { children } = props;
     return (
         <div className="modal-footer">

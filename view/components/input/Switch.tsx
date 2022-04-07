@@ -13,6 +13,7 @@ const Switch = (props: Props) => {
     const checked = props.checked ?? false;
     const disabled = props.disabled ?? false;
 
+    // Switch change event handler
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if(onChange !== undefined) {
             const checked = event.target.checked;

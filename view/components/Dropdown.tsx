@@ -1,108 +1,93 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ButtonType, Size } from "../common";
 
-export type DropdownItem = {
-    type: "a" | "button" | "header" | "divider";
-    value: any;
-    display?: string;
-    disable? : boolean;
-}
-
+// Dropdown Props
 type Props = {
     id: string;
-    label: string;
-    value?: any;
+    children: JSX.Element | JSX.Element[];
+    label?: string;
     type?: ButtonType;
     size?: Size;
-    showActiveItem?: boolean;
-    items: DropdownItem[];
-    onChange: (id:string, value: any) => void;
 }
 
+// Dropdown.ItemProps
+type ItemProps = {
+    id: string;
+    children?: string | JSX.Element | SVGElement;
+    active?: boolean;
+    onClick: (id?: string) => void;
+}
+
+// Dropdown
 const Dropdown = (props: Props) => {
-    const { id, items, label, value, onChange } = props;
+    const { id, label, children } = props;
     const type = props.type ?? "primary";
     const size = props.size ?? "md";
-    const showActiveItem = props.showActiveItem ?? false;
     const className = `btn btn-${type} btn-${size} dropdown-toggle`;
-    const [displayValue, setDisplayValue] = useState<string>(label);
 
-    // value 중복 확인
+    // 하위 component로 Dropdown.Item, Dropdown.Divider만 오도록 설정
     useEffect(() => {
-        const itemValues = items.map((item) => item.value);
+        if (Array.isArray(children)) {
+            const childrenIds = children.filter((child) => child.type === "Item").map((child) => child.props.id);
+            children.forEach((child) => {
+                const type = child.type.name;
+                const id = child.props.id;
 
-        itemValues.forEach((value) => {
-            const isDuplicate = itemValues.filter((valueCurrent) => value === valueCurrent).length > 1;
+                // Dropdown.Item, Dropdown.Divider 외의 component가 있을 시 error throw
+                if (type !== "Item" && type !== "Divider") throw new Error(`Dropdown can only has Dropdown.Item, Dropdown.Divider in children`);
 
-            // value 중복 존재할 경우 error throw
-            if(isDuplicate) {
-                throw new Error(`Dropdown items has duplicated values: ${value}`);
-            }
-        });
-    }, [items]);
-
-    // Dropdown display set
-    useEffect(() => {
-        if(value !== undefined && showActiveItem) {
-            const currentValue = items.filter((item) => item.value === value);
-            if(currentValue.length > 0){
-                const display = currentValue[0].display ?? value;
-                setDisplayValue(display);
-            }
+                // Dropdown.Item의 id가 중복될 시 error throw
+                if(childrenIds.filter((idCurrent) => id === idCurrent).length > 1) throw new Error(`Dropdown.Item's id can't be duplicated in the Dropdown: ${id}`);
+            });
         }
-    }, [value])
+        else {
+            const type = children.type;
 
-    // item click event handler
-    const itemClick = (value: any) => {
-        onChange(id, value);
-    }
+            // Dropdown.Item, Dropdown.Divider 외의 component가 있을 시 error throw
+            if (type !== "Item" && type !== "Divider") throw new Error(`Dropdown can only has Dropdown.Item, Dropdown.Divider in children`);
+        }
+    }, [children]);
 
     return (
         <div id={id} className="dropdown">
             <button className={className} type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                {displayValue}
+                {label}
             </button>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu">
-                {items.map((item) => {
-                    const checked = item.value === value;
-                    const disable = item.disable ?? false;
-                    const display = item.display ?? item.value;
-                    const className = (checked ? "active " : " ").concat(disable ? "disabled" : "");
-                    let returnValue: JSX.Element;
-                    // item type에 따라 rendering
-                    switch(item.type) {
-                        case "a" :
-                            returnValue = (
-                                <a className={`dropdown-item ${className}`} href={item.value}>
-                                    {display}
-                                </a>
-                            );
-                            break;
-                        case "button" :
-                            returnValue = (
-                                <button className={`dropdown-item ${className}`} type="button" value={item.value} onClick={() => { itemClick(item.value);}}>
-                                    {display}
-                                </button>
-                            )
-                            break;
-                        case "divider" :
-                            returnValue = (
-                                <hr className="dropdown-divider"/>
-                            );
-                            break;
-                        case "header" :
-                            returnValue = (
-                                <h6 className="dropdown-header">
-                                    {display}
-                                </h6>
-                            );
-                            break;
-                    }
-                    return returnValue = <li key={item.value}> {returnValue} </li> ;
-                })}
+                {children}
             </ul>
         </div>
     )
 }
 
+// Dropdown.Item
+const Item = (props: ItemProps) => {
+    const { id, active, onClick } = props;
+    const display = props.children ?? id; 
+
+    const className = `dropdown-item ${active ? "active" : ""}`;
+    const handleClick = () => {
+        onClick(id);
+    }
+
+    return (
+        <li>
+            <button className={className} id={id} type="button" onClick={handleClick}>
+                {display}
+            </button>
+        </li>
+    )
+}
+
+// Dropdown.Divider
+const Divider = () => {
+    return (
+        <li>
+            <hr className="dropdown-divider"/>
+        </li>
+    )
+}
+
+Dropdown.Item = Item;
+Dropdown.Divider = Divider;
 export default Dropdown;
