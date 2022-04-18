@@ -1,3 +1,3 @@
-import { Size, ButtonType } from "./Utility";
+import { Size, ButtonType } from "./utility";
 
 export type { Size, ButtonType };

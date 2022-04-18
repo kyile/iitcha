@@ -1,8 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { Size } from "../../common";
 
+type TextType = "text" | "password" | "email" | "number";
+
 type Props = {
     id: string;
+    type?: TextType;
     label?: string;
     value?: string;
     placeholder?: string;
@@ -17,6 +20,7 @@ type Props = {
 
 const Text = (props: Props) => {
     const { id, label, value, placeholder, validFeedBack, invalidFeedBack, onChange, onValidate } = props;
+    const type = props.type ?? "text";
     const required = props.required ?? false;
     const disabled = props.disabled ?? false;
     const size = props.size ?? "md";
@@ -56,19 +60,23 @@ const Text = (props: Props) => {
                 <input
                     id={id}
                     className={inputClassName}
-                    type="text"
+                    type={type}
                     placeholder={placeholder}
-                    value={value}
+                    value={value ?? ""}
                     disabled={disabled}
                     onChange={handleChange}
                 />
                 {validate && (
                     <>
                         {validFeedBack !== undefined ? (
-                            <div className="valid-feedback">{validFeedBack}</div>
+                            <div className="valid-feedback">
+                                {validFeedBack}
+                            </div>
                         ) : ("")}
                         {invalidFeedBack !== undefined ? (
-                            <div className="invalid-feedback">{invalidFeedBack}</div>
+                            <div className="invalid-feedback">
+                                {invalidFeedBack}
+                            </div>
                         ) : ("")}
                     </>
                 )}

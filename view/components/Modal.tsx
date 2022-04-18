@@ -1,49 +1,48 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // Modal Props
 type Props = {
-    children: JSX.Element[];
+    id: string;
+    blur?: boolean;
+    children: React.ReactElement<typeof Header | typeof Body | typeof Footer>[];
 }
 
 // Modal.Header Props
 type HeaderProps = {
+    id?: string;
     children: JSX.Element | JSX.Element[] | string;
 }
 
 // Modal.Body Props
 type BodyProps = {
+    id?: string;
     children: JSX.Element | JSX.Element[] | string;
 }
 
 // Modal.FooterProps
 type FooterProps = {
+    id?: string;
     children: JSX.Element | JSX.Element[] | string;
 }
 
 const Modal = (props: Props) => {
-    const { children } = props;
-
-    // Modal에 Modal.Header, Modal.Body, Modal.Footer 외의 component가 있을 시 error
-    useEffect(() => {
-        const childrenTypes = children.map((child) => child.type.name);
-        children.forEach((child) => {
-            const type = child.type.name;
-            if(type !== "Header" && type !== "Body" && type !== "Footer") {
-                throw new Error(`Modal can only has Modal.Header, Modal.Body, Modal.Footer in children: ${type}`);
-            }
-
-            // 하위 component 별로 중복 있을 시 error
-            if(childrenTypes.filter((typeCurrent) => typeCurrent === type).length != 1) {
-                throw new Error(`${type} can be only one in Modal`);
-            }
-        });
-    }, [children]);
+    const { id, blur, children } = props;
+    const blurProps = blur ? {} : { "data-bs-backdrop": "static", "data-bs-keyboard": "false" };
 
     return (
-        <div className="modal fade" id="modal" tabIndex={-1} aria-labelledby="modalLabel" aria-hidden="true">
+        <div
+            className="modal fade"
+            id={id}
+            tabIndex={-1}
+            aria-labelledby="modalLabel"
+            aria-hidden="true"
+            {...blurProps}
+        >
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div className="modal-content">
-                    {children}
+                    {children.filter((child) => String((child as JSX.Element).type.name) === "Header")}
+                    {children.filter((child) => String((child as JSX.Element).type.name) === "Body")}
+                    {children.filter((child) => String((child as JSX.Element).type.name) === "Footer")}
                 </div>
             </div>
         </div>
@@ -52,16 +51,25 @@ const Modal = (props: Props) => {
 
 const Header = (props: HeaderProps) => {
     const { children } = props;
+
     return (
         <div className="modal-header">
-            {children}
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <h5 className="modal-title">
+                {children}
+            </h5>
+            <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+            />
         </div>
     );
 }
 
 const Body = (props: BodyProps) => {
     const { children } = props;
+
     return (
         <div className="modal-body">
             {children}
@@ -71,6 +79,7 @@ const Body = (props: BodyProps) => {
 
 const Footer = (props: FooterProps) => {
     const { children } = props;
+
     return (
         <div className="modal-footer">
             {children}

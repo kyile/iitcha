@@ -2,25 +2,24 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useContext, useState } from 'react'
 import { Container, Grid, Button, Dropdown, Modal, Tab, Select, Text, Checkbox, Radio } from '../components'
-import { ModalContext } from './_app'
+import { ModalContext } from '../common/context'
 
 const Home: NextPage = () => {
   const modal = useContext(ModalContext);
   const [check, setCheck] = useState<boolean>();
   const [radio, setRadio] = useState<any>();
   const [text, setText] = useState<string>();
+  const [select, setSelect] = useState<string>();
 
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Iitcha</title>
       </Head>
       <main>
-        <Modal>
+        <Modal id="modal">
           <Modal.Header>
-            <h5 className="modal-title">
               Modal Test
-            </h5>
           </Modal.Header>
           <Modal.Body>
             modal body
@@ -29,7 +28,7 @@ const Home: NextPage = () => {
             <Button
               id="modalClose"
               type="secondary"
-              onClick={()=>{modal.hideModal()}}
+              onClick={()=>{modal.hideModal("modal")}}
             >
               close
             </Button>
@@ -42,10 +41,11 @@ const Home: NextPage = () => {
                 id="tab"
                 onTabClick={(id, index) => {console.log(id); console.log(index)}}
               >
-                <Tab.Sub id="tabSub1" label="Tab 1">
-                  <h5>
-                    Tab 1's contents
-                  </h5>
+                <Tab.Sub
+                  id="tabSub1"
+                  label="Tab 1"
+                  title="Tab 1's contents"
+                >
                   <Text
                     id="text"
                     label="Text"
@@ -55,10 +55,11 @@ const Home: NextPage = () => {
                     onChange={(id, value) => {setText(value);}}
                   />
                 </Tab.Sub>
-                <Tab.Sub id="tabSub2" label="Tab 2">
-                  <h5>
-                    Tab 2's contents
-                  </h5>
+                <Tab.Sub
+                  id="tabSub2"
+                  label="Tab 2"
+                  title="Tab 2's contents"
+                >
                   <Checkbox
                     id="checkbox"
                     label="Checkbox"
@@ -66,10 +67,11 @@ const Home: NextPage = () => {
                     onChange={(id, checked)=>{console.log(id); console.log(checked); setCheck(checked);}}
                   />
                 </Tab.Sub>
-                <Tab.Sub id="tabSub3" label="Tab 3">
-                  <h5>
-                    Tab 3's contents
-                  </h5>
+                <Tab.Sub
+                  id="tabSub3"
+                  label="Tab 3"
+                  title="Tab 3's contents"
+                >
                   <Radio
                     id="radio"
                     label="Radio"
@@ -82,10 +84,11 @@ const Home: NextPage = () => {
                     <Radio.Option value="B"/>
                   </Radio>
                 </Tab.Sub>
-                <Tab.Sub id="tabSub4" label="Tab4">
-                  <h5>
-                    Tab 3's contents
-                  </h5>
+                <Tab.Sub
+                  id="tabSub4"
+                  label="Tab4"
+                  title="Tab 4's contents"
+                >
                   <Dropdown id="dropDown" label="Dropdown">
                     <Dropdown.Item id="item1" onClick={(id) => {console.log(id);}}>
                       Item1
@@ -98,9 +101,19 @@ const Home: NextPage = () => {
                       Item3
                     </Dropdown.Item>
                   </Dropdown>
-                  <Select id="select" label="Select">
-                    <Select.Option value="A" display="Option A"/>
-                    <Select.Option value="B" display="Option B"/>
+                  <Select
+                    id="select"
+                    label="Select"
+                    value={select}
+                    onChange={(id, value) => {setSelect(value);}}
+                  >
+                    <Select.Option value="A">
+                      Option A
+                    </Select.Option>
+                    <Select.Option value="B">
+                      Option B
+                    </Select.Option>
+                    <Select.Option value="C"/>
                   </Select>
                 </Tab.Sub>
               </Tab>

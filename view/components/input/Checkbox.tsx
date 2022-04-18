@@ -4,7 +4,7 @@ type Props = {
     id: string;
     label?: string;
     checked?: boolean;
-    disabled?: boolean
+    disabled?: boolean;
     onChange?: (id?: string, checked?: boolean) => void;
 }
 
@@ -26,7 +26,6 @@ const Checkbox = (props: Props) => {
             <input
                 className="form-check-input"
                 type="checkbox"
-                value=""
                 id={id}
                 checked={checked}
                 disabled={disabled}
