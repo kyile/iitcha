@@ -2,6 +2,8 @@
 it, 전자제품 리뷰 사이트 프로젝트
 
 # 수정 현황
+2022.04.18 옥유관 Component 추가, 경로 수정, 일부 Component children 수정, login api moking 추가
+
 2022.04.07 옥유관 - 일부 Component 아키텍처 변경, Text required, validation 추가
 
 2022.01.23 옥유관 - 디버그 & 테스트 설정, Bootstrap 설정
