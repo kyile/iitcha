@@ -1,55 +1,39 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
-import React, { useEffect, useRef, useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import { Modal as bootstrapModal } from 'bootstrap';
-import { Button, Container, Grid, Modal, Navbar, Spinner, Text } from '../components';
 import { useRouter } from 'next/router';
-import { ModalContext, UserContext, PathContext } from "../common/context";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Button, Container, Grid, Modal, Navbar, Spinner, Text } from '../components';
 import { stringToHashCode } from '../common/utility';
+import { CommonStore, ModalStore, UserInfoStore } from '../common/store';
+import axios from "axios";
+import "bootstrap/dist/css/bootstrap.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const modal = useRef<typeof bootstrapModal>();
+  // store
+  const { setModal, hideModal } = ModalStore.useStore();
+  const { setUserInfo } = UserInfoStore.useStore();
+  const { setPath } = CommonStore.useStore();
+
+  // Next hook
   const router = useRouter();
 
-  const [userInfo, setUserInfo] = useState<{} | undefined>();
+  // state
   const [id, setId] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [loading, setLoading] = useState<boolean>();
 
+  const currentPath = router.pathname;
+
   // Modal 조작을 위한 API import
   useEffect(() => {
     import("bootstrap").then((bootstrap) => {
-      modal.current = bootstrap.Modal;
+      setModal(bootstrap.Modal);
     });
   }, []);
 
-  // Modal 보이기
-  const showModal = (id: string) => {
-    // rendering이 완료되어 document, bootstrap이 정상적으로 있는 경우 진행
-    if (typeof document !== 'undefined' && modal.current !== undefined) {
-      const modalEl = document.querySelector(`#${id}`);
-
-      if(modalEl !== null){
-          const modalInstance = modal.current.getOrCreateInstance(modalEl);
-          modalInstance.show();
-      }
-    }
-  }
-
-  // Modal 숨기기
-  const hideModal = (id: string) => {
-    // rendering이 완료되어 document, bootstrap이 정상적으로 있는 경우 진행
-    if (typeof document !== 'undefined' && modal.current !== undefined) {
-      const modalEl = document.querySelector(`#${id}`);
-
-      if(modalEl !== null){
-          const modalInstance = modal.current.getOrCreateInstance(modalEl);
-          modalInstance.hide();
-      }
-    }
-  }
+  useEffect(() => {
+    setPath(currentPath);
+  }, [currentPath]);
 
   // login modal id change event handler
   const handleIdChange = (id?: string, value?: string) => {
@@ -61,20 +45,24 @@ function MyApp({ Component, pageProps }: AppProps) {
     if (value !== undefined) setPassword(value)
   }
 
+  // login
   const handleLogin = async () => {
     setLoading(true);
-    /* TO-DO
-     * login 기능 추가
-    */
-
     try {
       if (id !== undefined && password !== undefined) {
+        // Back-end 개발 후 수정 필요
         const result = await axios.get(`/api/login?id=${stringToHashCode(id)}&password=${stringToHashCode(password)}`);
 
-        if (result.status === 200) {
-          setUserInfo(result.data);
-          console.log(result.data);
-          hideModal("login");
+        switch (result.status) {
+          case 200 : {
+            setUserInfo(result.data);
+            console.log(result.data);
+            hideModal("login");
+          } break;
+
+          case 401: {
+            console.log(result.data.message);
+          }
         }
       }
     } catch (error) {
@@ -89,21 +77,19 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <PathContext.Provider value={router.pathname}>
-        <UserContext.Provider value={userInfo}>
-          <ModalContext.Provider value={{showModal: showModal, hideModal: hideModal}}>
-            <Navbar>
-              <Navbar.Item path="/">
-                Home
-              </Navbar.Item>
-              <Navbar.Item path="/test">
-                Test
-              </Navbar.Item>
-            </Navbar>
-            <Component {...pageProps} />
-          </ModalContext.Provider>
-        </UserContext.Provider>
-      </PathContext.Provider>
+      <Navbar>
+        <Navbar.Item path="/">
+          Home
+        </Navbar.Item>
+        <Navbar.Item path="/test">
+          Test
+        </Navbar.Item>
+      </Navbar>
+      <div
+        id="alertContainer"
+        className="position-absolute d-inline top-25 start-50 z-index-tooltip"
+      />
+      <Component {...pageProps} />
       <Modal id="login">
         <Modal.Header>
           Login

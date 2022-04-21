@@ -1,15 +1,13 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { Button, Checkbox, Container, Dropdown, Grid, Modal, Radio, Select, Tab, Text } from "../components";
-import { ModalContext } from "../common/context";
+import { ModalStore } from "../common/store";
+import { alert } from "../common";
 
 const Test: NextPage = () => {
-    const modal = useContext(ModalContext);
-    const [check, setCheck] = useState<boolean>();
-    const [radio, setRadio] = useState<any>();
-    const [text, setText] = useState<string>();
-  
+    const { showModal, hideModal } = ModalStore.useStore();
+
     return (
       <div>
         <Head>
@@ -27,7 +25,7 @@ const Test: NextPage = () => {
               <Button
                 id="modalClose"
                 type="secondary"
-                onClick={()=>{modal.hideModal("modal")}}
+                onClick={()=>{hideModal("modal")}}
               >
                 close
               </Button>
@@ -35,9 +33,14 @@ const Test: NextPage = () => {
           </Modal>
           <Container>
             <Grid direction='row' justifyContents='center' size={2}>
-              <Grid direction='col' size={6}>
-                <Button id="modal" onClick={() => {modal.showModal("modal")}}>
+              <Grid direction='col' size={3}>
+                <Button id="modal" onClick={() => {showModal("modal")}}>
                   show Modal
+                </Button>
+              </Grid>
+              <Grid direction='col' size={3}>
+                <Button id="modal" onClick={() => {alert("Alert test")}}>
+                  show Alert
                 </Button>
               </Grid>
             </Grid>

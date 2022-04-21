@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Image from 'next/image'
 import Link from "next/link";
 import { Button, Grid, Text, Container } from ".."
-import { ModalContext, PathContext, UserContext } from "../../common/context";
+import { CommonStore, ModalStore, UserInfoStore } from "../../common/store";
 
 // Navbar Props
 type Props = {
@@ -18,8 +18,8 @@ type ItemProps = {
 
 // Navbar
 const Navbar = (props: Props) => {
-    const modal = useContext(ModalContext);
-    const user = useContext(UserContext);
+    const { showModal } = ModalStore.useStore();
+    const { userInfo } = UserInfoStore.useStore();
 
     const { children } = props;
     const [search, setSearch] = useState<string>();
@@ -40,11 +40,11 @@ const Navbar = (props: Props) => {
     }
 
     const handleLogin = () => {
-        modal.showModal("login")
+        showModal("login")
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light" onKeyUp={handleKeyUp}>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-2" onKeyUp={handleKeyUp}>
             <Container>
                 <Link href="/">
                     <a className="navbar-brand" href="/">
@@ -95,7 +95,7 @@ const Navbar = (props: Props) => {
 
 // Navbar.Item
 const Item = (props: ItemProps) => {
-    const currentPath = useContext(PathContext);
+    const currentPath = CommonStore.useStore(state => state.path);
     const { path, children } = props;
 
     const active =  currentPath === path;

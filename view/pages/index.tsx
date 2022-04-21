@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Container, Grid, Button, Dropdown, Modal, Tab, Select, Text, Checkbox, Radio } from '../components'
-import { ModalContext } from '../common/context'
+import { ModalStore } from "../common/store";
 
 const Home: NextPage = () => {
-  const modal = useContext(ModalContext);
+  const { showModal, hideModal } = ModalStore.useStore();
   const [check, setCheck] = useState<boolean>();
   const [radio, setRadio] = useState<any>();
   const [text, setText] = useState<string>();
@@ -28,7 +28,7 @@ const Home: NextPage = () => {
             <Button
               id="modalClose"
               type="secondary"
-              onClick={()=>{modal.hideModal("modal")}}
+              onClick={()=>{hideModal("modal")}}
             >
               close
             </Button>

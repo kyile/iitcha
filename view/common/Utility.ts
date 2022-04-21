@@ -14,3 +14,19 @@ export const stringToHashCode = (str: string) => {
     }
     return h.toString();
 }
+
+export const alert = (message: string, type?: Color) => {
+    const color = type ?? "primary";
+
+    if (typeof document !== "undefined") {
+        const container = document.getElementById("alertContainer");
+
+        if (container !== null) {
+            container.innerHTML =
+`<div class="alert alert-${color} alert-dismissible" role="alert" style="transition:0.5s">
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+</div>`;
+        }
+    }
+}
