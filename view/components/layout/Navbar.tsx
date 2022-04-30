@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from "next/link";
 import { Button, Grid, Text, Container } from ".."
 import { CommonStore, ModalStore, UserInfoStore } from "../../common/store";
+import { IconButton } from "../button";
+import Iitcha from "../../public/Iitcha.svg";
+import PersonCircle from "../../public/icons/PersonCircle.svg";
 
 // Navbar Props
 type Props = {
@@ -29,10 +32,18 @@ const Navbar = (props: Props) => {
     }
 
     const handleSearch = () => {
-        /* TO-DO
-         * 검색 기능 추가
+        /*
+        ** TO-DO
+        ** 검색 기능 추가
         */
         console.log("Search button clicked");
+    }
+
+    const handleSignUp = () => {
+        /*
+        ** TO-DO
+        ** 회원가입 기능 추가
+        */
     }
 
     const handleKeyUp = (e: React.KeyboardEvent) => {
@@ -44,16 +55,11 @@ const Navbar = (props: Props) => {
     }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-2" onKeyUp={handleKeyUp}>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4" onKeyUp={handleKeyUp}>
             <Container>
                 <Link href="/">
                     <a className="navbar-brand" href="/">
-                        <Image
-                            src="/Iitcha.svg"
-                            alt="logo"
-                            width={30}
-                            height={30}
-                        />
+                        {/* <Iitcha /> */}
                         Iitcha
                     </a>
                 </Link>
@@ -62,32 +68,46 @@ const Navbar = (props: Props) => {
                         {children}
                     </ul>
                 </div>
-                <Grid direction="row">
-                    <Grid direction="col" size={11}>
-                        <div className="input-group">
-                            <Text
-                                id="search"
-                                placeholder="검색어를 입력하세요."
-                                value={search}
-                                onChange={handleSearchChange}
-                            />
-                            <Button
-                                id="search"
-                                onClick={handleSearch}
-                            >
-                                검색
-                            </Button>
-                        </div>
-                    </Grid>
-                    <Grid direction="col" size={1}>
+                <Text
+                    id="search"
+                    placeholder="검색어를 입력하세요."
+                    value={search}
+                    onChange={handleSearchChange}
+                />
+                <Button
+                    id="search"
+                    type="success"
+                    onClick={handleSearch}
+                >
+                    검색
+                </Button>
+                {userInfo === undefined ? (
+                    <>
                         <Button
                             id="loginButton"
+                            type="light"
                             onClick={handleLogin}
                         >
-                            in
+                            로그인
                         </Button>
-                    </Grid>
-                </Grid>
+                        <Button
+                            id="signUpButton"
+                            type="primary"
+                            onClick={handleSignUp}
+                        >
+                            회원가입
+                        </Button>
+                    </>
+                ) :
+                (
+                    <IconButton
+                        id="userInfoButton"
+                        onClick={()=>{}}
+                    >
+                        <PersonCircle fill="grey"/>
+                    </IconButton>
+                )
+            }
             </Container>
         </nav>
     );

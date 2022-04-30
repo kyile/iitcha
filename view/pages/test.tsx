@@ -1,12 +1,13 @@
 import { NextPage } from "next";
 import Head from "next/head";
-import React from "react";
-import { Button, Checkbox, Container, Dropdown, Grid, Modal, Radio, Select, Tab, Text } from "../components";
+import React, { useState } from "react";
+import { Button, Card, Carousel, Checkbox, Container, Dropdown, Grid, Modal, Radio, Select, Switch, Tab, Text } from "../components";
 import { ModalStore } from "../common/store";
 import { alert } from "../common";
 
 const Test: NextPage = () => {
     const { showModal, hideModal } = ModalStore.useStore();
+    const [check, setCheck] = useState<boolean>();
 
     return (
       <div>
@@ -14,7 +15,7 @@ const Test: NextPage = () => {
           <title>Iitcha</title>
         </Head>
         <main>
-          <Modal id="modal" blur={false}>
+          <Modal id="modal" blur={false} onClose={(id) => {console.log(id);}}>
             <Modal.Header>
                 Modal Test
             </Modal.Header>
@@ -39,12 +40,98 @@ const Test: NextPage = () => {
                 </Button>
               </Grid>
               <Grid direction='col' size={3}>
-                <Button id="modal" onClick={() => {alert("Alert test")}}>
+                <Button id="modal" onClick={() => {alert("Alert test", "primary", 6000)}}>
                   show Alert
                 </Button>
               </Grid>
+              <Grid direction='col' size={3}>
+                <Switch
+                  id="switch"
+                  label="switch"
+                  checked={check}
+                  onChange={() => { setCheck(!check) }}
+                />
+                <Switch
+                  id="switch"
+                  label="switch"
+                  checked={!check}
+                  onChange={() => { setCheck(!check) }}
+                />
+              </Grid>
             </Grid>
           </Container>
+          <Carousel id="carousel" >
+            <div className="d-flex flex-row justify-content-around">
+              <Card title="A" isLoading>
+                A
+              </Card>
+              <Card title="B" isLoading>
+                B
+              </Card>
+              <Card title="C" isLoading>
+                C
+              </Card>
+              <Card title="D" isLoading>
+                D
+              </Card>
+              <Card title="E" isLoading>
+                E
+              </Card>
+            </div>
+            <div className="d-flex flex-row justify-content-around">
+              <Card title="A" isLoading>
+                A
+              </Card>
+              <Card title="B" isLoading>
+                B
+              </Card>
+              <Card title="C" isLoading>
+                C
+              </Card>
+              <Card title="D" isLoading>
+                D
+              </Card>
+              <Card title="E" isLoading>
+                E
+              </Card>
+            </div>
+          </Carousel>
+          <Carousel id="carousel" >
+            <div className="d-flex flex-row justify-content-around">
+              <Card title="A" isLoading>
+                A
+              </Card>
+              <Card title="B" isLoading>
+                B
+              </Card>
+              <Card title="C" isLoading>
+                C
+              </Card>
+              <Card title="D" isLoading>
+                D
+              </Card>
+              <Card title="E" isLoading>
+                E
+              </Card>
+            </div>
+            <div className="d-flex flex-row justify-content-around">
+              <Card title="A" isLoading>
+                A
+              </Card>
+              <Card title="B" isLoading>
+                B
+              </Card>
+              <Card title="C" isLoading>
+                C
+              </Card>
+              <Card title="D" isLoading>
+                D
+              </Card>
+              <Card title="E" isLoading>
+                E
+              </Card>
+            </div>
+          </Carousel>
         </main>
         <footer>
         </footer>

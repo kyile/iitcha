@@ -5,7 +5,7 @@ type AlignItems = "start" | "center" | "end";
 type JustifyContents = "start" | "center" | "end" | "around" | "between" | "evenly";
 
 type Props = {
-    children: JSX.Element[] | JSX.Element,
+    children: (string | JSX.Element)[] | JSX.Element | string,
     direction: Direction,
     size?: number,
     alignItems?: AlignItems,
@@ -21,7 +21,7 @@ const Grid = (props: Props) => {
     if(direction === "col" && size !== undefined)
         className += `-${size}`;
     else 
-        className = `${className} align-items-${alignItems} justify-contents-${justifyContents} g-3`;
+        className = `${className} align-items-${alignItems} justify-contents-${justifyContents} g-0`;
 
     return (
         <div className={className}>

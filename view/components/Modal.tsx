@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { ModalStore } from "../common/store";
 
 // Modal Props
 type Props = {
     id: string;
     blur?: boolean;
+    onClose?: (id?:string) => void;
     children: React.ReactElement<typeof Header | typeof Body | typeof Footer>[];
 }
 
@@ -26,8 +28,24 @@ type FooterProps = {
 }
 
 const Modal = (props: Props) => {
-    const { id, blur, children } = props;
+    const { id, blur, onClose, children } = props;
     const blurProps = blur ? {} : { "data-bs-backdrop": "static", "data-bs-keyboard": "false" };
+
+    const Header = children.filter((child) => String((child as JSX.Element).type.name) === "Header");
+    const Body = children.filter((child) => String((child as JSX.Element).type.name) === "Body");
+    const Footer = children.filter((child) => String((child as JSX.Element).type.name) === "Footer");
+
+    useEffect(() => {
+        if (typeof document !== "undefined" && onClose !== undefined) {
+            const modalEl = document.getElementById(id);
+
+            if (modalEl !== null) {
+                modalEl.addEventListener("hide.bs.modal", () => {
+                    onClose(id);
+                });
+            }
+        }
+    }, []);
 
     return (
         <div
@@ -40,9 +58,9 @@ const Modal = (props: Props) => {
         >
             <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                 <div className="modal-content">
-                    {children.filter((child) => String((child as JSX.Element).type.name) === "Header")}
-                    {children.filter((child) => String((child as JSX.Element).type.name) === "Body")}
-                    {children.filter((child) => String((child as JSX.Element).type.name) === "Footer")}
+                    {Header}
+                    {Body}
+                    {Footer}
                 </div>
             </div>
         </div>

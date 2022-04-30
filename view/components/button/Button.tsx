@@ -15,7 +15,7 @@ const Button = (props: Props) => {
     const disabled = props.disabled ?? false;
     const type = props.type ?? "primary";
     const size = props.size ?? "md";
-    const className = `btn btn-${type} btn-${size}`;
+    const className = `btn btn-${type} btn-${size} ms-1 me-1`;
 
     // Button click event handler
     const handleClick = () => {

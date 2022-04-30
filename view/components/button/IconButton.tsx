@@ -3,7 +3,7 @@ import { Size } from "../../common/utility";
 
 type Props = {
     id: string;
-    children: SVGElement;
+    children: any;
     disabled?: boolean;
     size?: Size;
     onClick: (id?: string) => void;
@@ -18,7 +18,7 @@ const IconButton = (props: Props) => {
     }
 
     return (
-        <div id={id} className="pe-auto" onClick={handleClick}>
+        <div id={id} className="ms-1 me-1" style={{cursor: "pointer"}} onClick={handleClick}>
             {children}
         </div>
     )

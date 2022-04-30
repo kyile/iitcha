@@ -14,10 +14,10 @@ const Card = (props: Props) => {
     const isLoading = props.isLoading ?? false;
 
     return (
-        <div className="card">
+        <div className="card m-1">
             {isLoading ? (
                 <>
-                    <Image src="..." className="card-img-top" alt="..." />
+                    <div className="card-img-top" style={{background: "lightgrey", minHeight: "150px", minWidth: "200px"}}/>
                     <div className="card-body">
                         <h5 className="card-title placeholder-glow">
                             <span className="placeholder col-6"></span>

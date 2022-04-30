@@ -12,6 +12,7 @@ type Props = {
     disabled?: boolean;
     size?: Size;
     required?: boolean;
+    validate?: boolean;
     validFeedBack?: string;
     invalidFeedBack?: string;
     onChange?: (id?: string, value?: string) => void;
@@ -24,20 +25,19 @@ const Text = (props: Props) => {
     const required = props.required ?? false;
     const disabled = props.disabled ?? false;
     const size = props.size ?? "md";
-    const validate = required || onValidate !== undefined;
+    const validateProps = props.validate ?? true;
+    const validate = (required || onValidate !== undefined) && value !== undefined && validateProps;
 
     const [isValid, setIsValid] = useState<boolean>();
 
+    // validate 유무에 따라 class 변경
     const inputGroupClassName = `input-group ${validate ? "has-validation" : ""}`;
-    const inputClassName = `form-control form-control-${size} ${isValid !== undefined ? isValid ? "is-valid" : "is-invalid" : ""}`;
+    const inputClassName = `form-control form-control-${size} ${(isValid !== undefined && validate) ? isValid ? "is-valid" : "is-invalid" : ""}`;
 
     // validation
     useEffect(() => {
         if (value !== undefined) {
-            if (required) {
-                if (value.length === 0) setIsValid(false);
-                else setIsValid(true);
-            }
+            if (required) setIsValid(value.length > 0);
             else if (onValidate !== undefined) setIsValid(onValidate(id, value));
         }
     }, [value]);
@@ -50,7 +50,7 @@ const Text = (props: Props) => {
     }
 
     return (
-        <div>
+        <div className="ms-1 me-1">
             {label !== undefined ? (
                 <label htmlFor={id}>
                     {label}
@@ -68,16 +68,12 @@ const Text = (props: Props) => {
                 />
                 {validate && (
                     <>
-                        {validFeedBack !== undefined ? (
-                            <div className="valid-feedback">
-                                {validFeedBack}
-                            </div>
-                        ) : ("")}
-                        {invalidFeedBack !== undefined ? (
-                            <div className="invalid-feedback">
-                                {invalidFeedBack}
-                            </div>
-                        ) : ("")}
+                        <div className="valid-feedback">
+                            {validFeedBack}
+                        </div>
+                        <div className="invalid-feedback">
+                            {invalidFeedBack}
+                        </div>
                     </>
                 )}
             </div>
