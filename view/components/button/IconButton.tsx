@@ -13,7 +13,9 @@ const IconButton = (props: Props) => {
     const { id, children, onClick } = props;
 
     // Button click event handler
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
         onClick(id);
     }
 

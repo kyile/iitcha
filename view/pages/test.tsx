@@ -62,72 +62,72 @@ const Test: NextPage = () => {
           </Container>
           <Carousel id="carousel" >
             <div className="d-flex flex-row justify-content-around">
-              <Card title="A" isLoading>
+              <Card id="A" title="A" isLoading>
                 A
               </Card>
-              <Card title="B" isLoading>
+              <Card id="B" title="B" isLoading>
                 B
               </Card>
-              <Card title="C" isLoading>
+              <Card id="C" title="C" isLoading>
                 C
               </Card>
-              <Card title="D" isLoading>
+              <Card id="D" title="D" isLoading>
                 D
               </Card>
-              <Card title="E" isLoading>
+              <Card id="E" title="E" isLoading>
                 E
               </Card>
             </div>
             <div className="d-flex flex-row justify-content-around">
-              <Card title="A" isLoading>
+              <Card id="A" title="A" isLoading>
                 A
               </Card>
-              <Card title="B" isLoading>
+              <Card id="B" title="B" isLoading>
                 B
               </Card>
-              <Card title="C" isLoading>
+              <Card id="C" title="C" isLoading>
                 C
               </Card>
-              <Card title="D" isLoading>
+              <Card id="D" title="D" isLoading>
                 D
               </Card>
-              <Card title="E" isLoading>
+              <Card id="E" title="E" isLoading>
                 E
               </Card>
             </div>
           </Carousel>
           <Carousel id="carousel" >
             <div className="d-flex flex-row justify-content-around">
-              <Card title="A" isLoading>
+              <Card id="A" title="A" isLoading>
                 A
               </Card>
-              <Card title="B" isLoading>
+              <Card id="B" title="B" isLoading>
                 B
               </Card>
-              <Card title="C" isLoading>
+              <Card id="C" title="C" isLoading>
                 C
               </Card>
-              <Card title="D" isLoading>
+              <Card id="D" title="D" isLoading>
                 D
               </Card>
-              <Card title="E" isLoading>
+              <Card id="E" title="E" isLoading>
                 E
               </Card>
             </div>
             <div className="d-flex flex-row justify-content-around">
-              <Card title="A" isLoading>
+              <Card id="A" title="A" isLoading>
                 A
               </Card>
-              <Card title="B" isLoading>
+              <Card id="B" title="B" isLoading>
                 B
               </Card>
-              <Card title="C" isLoading>
+              <Card id="C" title="C" isLoading>
                 C
               </Card>
-              <Card title="D" isLoading>
+              <Card id="D" title="D" isLoading>
                 D
               </Card>
-              <Card title="E" isLoading>
+              <Card id="E" title="E" isLoading>
                 E
               </Card>
             </div>

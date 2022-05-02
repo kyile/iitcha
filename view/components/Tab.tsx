@@ -18,23 +18,23 @@ type TabSubProps = {
 
 const Tab = (props: Props) => {
     const { id, onTabClick, children } = props;
-    const currentIdx = props.index ?? 0;
-
-    // Tab click event handler
-    const handleTabClick = (id: string, index: number) => {
-        if(onTabClick !== undefined) onTabClick(id, index);
-    }
+    const currentIndex = props.index ?? 0;
 
     // Tab navigation render
     const renderNav = () => {
         // Array일 경우와 하나의 component일 경우 구분하여 진행
         if(Array.isArray(children)) {
-            return children.map((child, idx) => {
+            return children.map((child, index) => {
                 const { label, id } = (child as JSX.Element).props;
                 const navId = `nav-${id}-tab`;
                 const target = `#nav-${id}`;
                 const ariaControls = `nav-${id}`;
-                const className = `nav-link ${idx === currentIdx ? "active" : ""}`;
+                const className = `nav-link ${index === currentIndex ? "active" : ""}`;
+                const tabClick = (event: React.MouseEvent) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    if(onTabClick !== undefined) onTabClick(id, index);
+                }
 
                 return (
                     <button
@@ -45,7 +45,7 @@ const Tab = (props: Props) => {
                         type="button"
                         role="tab"
                         aria-controls={ariaControls}
-                        onClick={()=>{handleTabClick(id, idx)}}
+                        onClick={tabClick}
                         key={id}
                     >
                         {label}
@@ -81,11 +81,11 @@ const Tab = (props: Props) => {
     const renderContent = () => {
         // Array일 경우와 하나의 component일 경우 구분하여 진행
         if(Array.isArray(children)) {
-            return children.map((child, idx) => {
+            return children.map((child, index) => {
                 const { id, title, children: subChildren} = (child as JSX.Element).props;
                 const tabId = `nav-${id}`;
                 const ariaLabel = `${tabId}-tab`;
-                const className = `tab-pane ${idx === currentIdx ? " show active" : ""}`;
+                const className = `tab-pane ${index === currentIndex ? " show active" : ""}`;
 
                 return (
                     <div

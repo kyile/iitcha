@@ -18,7 +18,9 @@ const Button = (props: Props) => {
     const className = `btn btn-${type} btn-${size} ms-1 me-1`;
 
     // Button click event handler
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
         onClick(id);
     }
 

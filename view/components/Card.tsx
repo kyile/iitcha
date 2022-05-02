@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/Image";
 
 type Props = {
+    id: string;
     title?: string;
     image?: string;
     isLoading?: boolean;
@@ -9,12 +10,12 @@ type Props = {
 }
 
 const Card = (props: Props) => {
-    const { title, children } = props;
+    const { id, title, children } = props;
     const image = props.image ?? "...";
     const isLoading = props.isLoading ?? false;
 
     return (
-        <div className="card m-1">
+        <div id={id} className="card m-1">
             {isLoading ? (
                 <>
                     <div className="card-img-top" style={{background: "lightgrey", minHeight: "150px", minWidth: "200px"}}/>

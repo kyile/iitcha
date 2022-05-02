@@ -52,7 +52,9 @@ const Item = (props: ItemProps) => {
     const display = props.children ?? id; 
 
     const className = `dropdown-item ${active ? "active" : ""}`;
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent) => {
+        event.preventDefault();
+        event.preventDefault();
         onClick(id);
     }
 

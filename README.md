@@ -21,6 +21,6 @@ iitcha
  &nbsp;&nbsp;&nbsp;&nbsp;└ node_modules  
  &nbsp;&nbsp;&nbsp;&nbsp;└ pages  
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ api  
- &nbsp;&nbsp;&nbsp;&nbsp;public  
+ &nbsp;&nbsp;&nbsp;&nbsp;└ public  
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└ icons  
 └ controller  
